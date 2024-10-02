@@ -1,7 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { PostType } from "./enums/postType.enum";
-import { PostStatus } from "./enums/postStatus.enum";
-import { CreatePostMetaOptionsDto } from "../meta-options/dtos/create-post-metaOptions.dto";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
+import { PostType } from './enums/postType.enum';
+import { PostStatus } from './enums/postStatus.enum';
+import { MetaOption } from 'src/meta-options/meta-option.entity';
 
 /* eslint-disable prettier/prettier */
 @Entity()
@@ -65,7 +72,12 @@ export class Post {
     })
     publishOn?: Date;
 
+    @OneToOne(()=> MetaOption,(metaOption)=>metaOption.post,
+    {
+        cascade: true,
+        eager: true
+    })
+    metaOptions?: MetaOption;
 
     tags?: string[];
-    metaOptions?: CreatePostMetaOptionsDto[];
 }

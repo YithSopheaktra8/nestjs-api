@@ -1,6 +1,7 @@
 /* eslint-disable prettier/prettier */
 
-import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Post } from "src/posts/post.entity";
+import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 
 @Entity()
 export class MetaOption {
@@ -17,4 +18,10 @@ export class MetaOption {
 
     @UpdateDateColumn()
     updateDate: Date;
+
+    @OneToOne(() => Post, (post)=>post.metaOptions,{
+        onDelete: 'CASCADE'
+    })
+    @JoinColumn()
+    post: Post;
 }
