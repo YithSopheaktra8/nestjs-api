@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {
   IsEmail,
   IsNotEmpty,
@@ -6,7 +7,7 @@ import {
   Matches,
   MaxLength,
   MinLength,
-} from "class-validator";
+} from 'class-validator';
 
 export class CreateUserDto {
   @IsString()

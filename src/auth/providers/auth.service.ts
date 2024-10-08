@@ -11,7 +11,7 @@ export class AuthService {
         private readonly userService: UserService
     ) {}
 
-    public login(email : string, password: string, userId : string) {
+    public login(email : string, password: string, userId : number) {
         const user = this.userService.findOneById(userId);
         console.log(user);
         return "Logged in";

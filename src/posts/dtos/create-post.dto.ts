@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 
-import { IsArray, IsEnum, IsISO8601, IsJSON, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength, ValidateNested } from "class-validator";
+import { IsArray, IsEnum, IsInt, IsISO8601, IsJSON, IsNotEmpty, IsOptional, IsString, Matches, MaxLength, MinLength, ValidateNested } from "class-validator";
 import { PostType } from "../enums/postType.enum";
 import { PostStatus } from "../enums/postStatus.enum";
 import { CreatePostMetaOptionsDto } from "../../meta-options/dtos/create-post-metaOptions.dto";
@@ -82,14 +82,13 @@ export class CreatePostDto {
 
     @IsOptional()
     @IsArray()
-    @IsString({each: true}) // each string in the array should be a string
-    @MinLength(3, {each: true}) // each string in the array should have a minimum length of 1
+    @IsInt({each: true}) // each string in the array should be a string
     @ApiPropertyOptional({
-        type: [String],
-        description: 'Tags associated with the post',
-        example: ['tag1', 'tag2', 'tag3']
+        type: [Number],
+        description: 'Tags id of the post',
+        example: [1,2,3]
     }) // Swagger API documentation
-    tags: string[];
+    tags?: number[];
 
     @ApiPropertyOptional({
         type: 'object',
@@ -109,4 +108,13 @@ export class CreatePostDto {
     @ValidateNested({each: true})
     @Type(() => CreatePostMetaOptionsDto) // each object in the array should be of type CreatePostMetaOptionsDto 
     metaOptions: CreatePostMetaOptionsDto | null;
+
+    @IsNotEmpty()
+    @ApiProperty({
+        required: true,
+        description: 'Author ID of the post',
+        example: 1
+    }) // Swagger API documentation
+    @IsInt()
+    authorId: number;
 }
