@@ -11,6 +11,8 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { ConfigService } from '@nestjs/config';
 import { CreateUserMany } from './create-user-many';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
+import { CreateUserProvider } from './create-user.provider';
+import { FindOneByEmailProvider } from './find-one-by-email.provider';
 
 /**
  * Service responsible for handling user data
@@ -32,7 +34,11 @@ export class UserService {
 
     private readonly configService : ConfigService,
 
-    private readonly createUserMany : CreateUserMany
+    private readonly createUserMany : CreateUserMany,
+
+    private readonly createUserProvider : CreateUserProvider,
+
+    private readonly findOneByEmailProvider : FindOneByEmailProvider
 
   ) {}
 
@@ -71,35 +77,15 @@ export class UserService {
   }
 
   public async createUser(createUserDto : CreateUserDto){
-
-    let existingUser = undefined;
-    console.log("email: "+createUserDto.email)
-
-    try{
-      // Check is user exists with same email
-      existingUser = await this.userRepository.findOne({
-        where: { email: createUserDto.email },
-      });
-    }catch(err){
-      throw new RequestTimeoutException('The request to the database timed out',{
-        description: 'The request to the database timed out',
-      });
-    }
-
-    console.log("existingUser: "+existingUser)
-
-    if(existingUser){
-      throw new ConflictException('The user already exists',{
-        description: 'The user already exists'
-      });
-    }
-
-    const newUser = this.userRepository.create(createUserDto);
-    return this.userRepository.save(newUser);
+      return this.createUserProvider.createUser(createUserDto);
   }
 
   public async createMany(createUserDto: CreateManyUsersDto){
     this.createUserMany.createManyUsers(createUserDto);
+  }
+
+  public async findOneByEmail(email: string){
+    return this.findOneByEmailProvider.findOneByEmail(email);
   }
 
 }
