@@ -12,6 +12,9 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
       whitelist: true,
       transform: true,
+      transformOptions: {
+        enableImplicitConversion: true, // convert query params to their respective types 
+      }
     }),
   );
   

@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TagsModule } from './tags/tags.module';
 import { MetaOptionsModule } from './meta-options/meta-options.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { PaginationModule } from './common/pagination/pagination.module';
 
 @Module({
   imports: [
@@ -35,7 +36,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
           synchronize: true,
         }
       )
-  }), TagsModule, MetaOptionsModule],
+  }), TagsModule, MetaOptionsModule, PaginationModule],
   controllers: [AppController],
   providers: [AppService],
 })

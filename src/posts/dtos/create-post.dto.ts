@@ -78,7 +78,7 @@ export class CreatePostDto {
         description: 'Date when the post should be published',
         example: '2021-07-01T12:00:00.000Z'
     }) // Swagger API documentation
-    publishOn?: Date;
+    publishOn?: string;
 
     @IsOptional()
     @IsArray()
