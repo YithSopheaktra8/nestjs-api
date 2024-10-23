@@ -9,15 +9,21 @@ import { CreateUserMany } from './providers/create-user-many';
 import { CreateUserProvider } from './providers/create-user.provider';
 import { FindOneByEmailProvider } from './providers/find-one-by-email.provider';
 
+
 @Module({
   controllers: [UsersController],
-  providers: [UserService, CreateUserMany, CreateUserProvider, FindOneByEmailProvider],
+  providers: [
+    UserService, 
+    CreateUserMany, 
+    CreateUserProvider, 
+    FindOneByEmailProvider
+  ],
   exports: [UserService],
   imports: [
     forwardRef(() => AuthModule), 
     TypeOrmModule.forFeature([
       User
-    ])
-],
+    ]),
+  ],
 })
 export class UsersModule {}
