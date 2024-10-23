@@ -8,6 +8,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
 import jwtConfig from '../config/jwt.config';
 import { User } from 'src/users/user.entity';
+import { ActiveUserData } from '../interfaces/active-user-data.interface';
 
 @Injectable()
 export class LoginProvider {
@@ -50,7 +51,7 @@ export class LoginProvider {
                 // payload
                 sub : user.id,
                 email: user.email
-            },
+            } as ActiveUserData,
             {
                 // options
                 audience: this.jwtConfiguration.audience,

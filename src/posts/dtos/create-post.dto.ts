@@ -108,13 +108,4 @@ export class CreatePostDto {
     @ValidateNested({each: true})
     @Type(() => CreatePostMetaOptionsDto) // each object in the array should be of type CreatePostMetaOptionsDto 
     metaOptions: CreatePostMetaOptionsDto | null;
-
-    @IsNotEmpty()
-    @ApiProperty({
-        required: true,
-        description: 'Author ID of the post',
-        example: 1
-    }) // Swagger API documentation
-    @IsInt()
-    authorId: number;
 }

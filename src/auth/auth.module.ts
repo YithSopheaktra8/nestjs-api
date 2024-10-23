@@ -9,6 +9,7 @@ import { LoginProvider } from './providers/login.provider';
 import { ConfigModule } from '@nestjs/config';
 import jwtConfig from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
+import { GenerateTokenProvider } from './providers/generate-token.provider';
 
 @Module({
   controllers: [AuthController],
@@ -16,7 +17,7 @@ import { JwtModule } from '@nestjs/jwt';
     AuthService, {
     provide: HashingProvider, // because HashingProvider is an abstract class
     useClass: BcryptProvider, // because BcryptProvider is the implementation of HashingProvider
-  }, LoginProvider],
+  }, LoginProvider, GenerateTokenProvider],
   imports: [
     forwardRef(() => UsersModule),
     ConfigModule.forFeature(jwtConfig), // because jwtConfig is a configuration object
