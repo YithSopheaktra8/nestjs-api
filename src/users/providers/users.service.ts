@@ -50,7 +50,7 @@ export class UserService {
    * @returns An array of users
    */
   public findAll(getUserParamDto: GetUserParamDto, limit: number, page: number) {
-    const isAuth = this.authService.isAuth();
+
     const config = this.configService.get<string>("S3_BUCKET");
     console.log(config);
     return [
