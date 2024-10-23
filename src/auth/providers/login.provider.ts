@@ -4,11 +4,8 @@ import { forwardRef, Inject, Injectable, RequestTimeoutException, UnauthorizedEx
 import { LoginDto } from '../dtos/login.dto';
 import { UserService } from 'src/users/providers/users.service';
 import { HashingProvider } from './hashing.provider';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigType } from '@nestjs/config';
-import jwtConfig from '../config/jwt.config';
 import { User } from 'src/users/user.entity';
-import { ActiveUserData } from '../interfaces/active-user-data.interface';
+import { GenerateTokenProvider } from './generate-token.provider';
 
 @Injectable()
 export class LoginProvider {
@@ -20,10 +17,7 @@ export class LoginProvider {
 
         private readonly hashingProvider: HashingProvider,
 
-        private readonly jwtService: JwtService,
-
-        @Inject(jwtConfig.KEY)
-        private readonly jwtConfiguration: ConfigType<typeof jwtConfig>
+        private readonly generateTokenProvider: GenerateTokenProvider
     ) {}
 
     public async login(loginDta : LoginDto){
@@ -45,24 +39,7 @@ export class LoginProvider {
             throw new UnauthorizedException("Invalid credentials");
         }
 
-        /// generate access token
-        const accessToken = await this.jwtService.signAsync(
-            {
-                // payload
-                sub : user.id,
-                email: user.email
-            } as ActiveUserData,
-            {
-                // options
-                audience: this.jwtConfiguration.audience,
-                issuer: this.jwtConfiguration.issuer,
-                secret: this.jwtConfiguration.secret,
-                expiresIn: this.jwtConfiguration.accessTokenTtl
-            }
-        )
-
-        return {
-            accessToken
-        }
+        // generate token
+        return await this.generateTokenProvider.generateToken(user);
     }
 }
